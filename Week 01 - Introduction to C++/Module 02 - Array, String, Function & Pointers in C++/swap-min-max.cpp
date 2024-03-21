@@ -32,7 +32,7 @@ int main()
     cout << "The max is: " << maxx << "\n";
     cout << "The max from three is: " << maxx2 << "\n";
 
-    vector<int> au = {3,2,4,5,1,};
+    vector<int> au = {3,8,6,5,1,};
     cout << "________________________________\n";
     cout<<"Before Sorting: \n";
     for (int i = 0; i < au.size(); i++)
@@ -42,16 +42,17 @@ int main()
     cout<<"\n";
 
     cout<<"After sorting: \n";
-    sort(au.begin(), au.end());
+   // sort(au.begin(), au.end());
+   sort(au.begin()+1, au.begin()+2+1);  //Sorting from Specific Range
+
     for (int i = 0; i < au.size(); i++)
     {
         cout<<au[i]<<" ";
     }
     cout<<"\n";
 
-    cout <<"________________________________\n";
-    cout<<"Sorting: Specific Array\n";
-    
+
+
 
     return 0;
 }

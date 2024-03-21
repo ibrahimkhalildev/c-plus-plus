@@ -1,9 +1,10 @@
-#include<iostream>
-#include<iomanip>
+#include<bits/stdc++.h>
 using namespace std;
-
 int main()
 {
-    double num = 3.14162835;
-    cout<<setprecision(4)<<fixed<<num;
+    int a, b, c, d, e, maxi;
+    cin >> a >> b >> c >> d >> e;
+    maxi = max({ a,b,c,d,e });
+    cout << maxi << '\n';
+    return 0;
 }
