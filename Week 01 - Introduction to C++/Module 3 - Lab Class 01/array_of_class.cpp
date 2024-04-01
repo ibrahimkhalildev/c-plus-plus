@@ -11,8 +11,7 @@ public:
     string fathers_name;
     string mothers_name;
     // Constructor
-    Student()
-    {
+    Student(){
 
     };
     // Constructor
@@ -35,24 +34,22 @@ public:
     // }
     void print_information()
     {
-        cout<<"Student Name: "<<name<<" "<<"Student ID: "<<std_id<<" Fathers Name: "<<fathers_name<<" Mothers Name: "<<mothers_name<<"\n";
+        cout << "Student Name: " << name << " "
+             << "Student ID: " << std_id << " Fathers Name: " << fathers_name << " Mothers Name: " << mothers_name << "\n";
     }
 };
 
 int main()
 {
-    vector<Student>a;
+    vector<Student> a;
     for (int i = 0; i < 10; i++)
     {
-        a.push_back(Student("A", 20-i, 20));
-
+        a.push_back(Student("A", 20 - i, 20));
     }
     for (int i = 0; i < 10; i++)
     {
         a[i].print_information();
     }
-
-
 
     return 0;
 }
