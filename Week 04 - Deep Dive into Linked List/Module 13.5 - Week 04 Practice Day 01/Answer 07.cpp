@@ -59,25 +59,12 @@ public:
         cout << endl;
     }
 
-    bool is_Contain_Value(int value) const
-    {
-        Node *current = head;
-        while (current != NULL)
-        {
-            if (current->data == value)
-            {
-                return true;
-            }
-            current = current->next;
-        }
-        return false;
-    }
-
     void Sort()
     {
         if (!head || !head->next)
+        {
             return;
-
+        }
         Node *sorted = NULL;
 
         Node *current = head;
@@ -108,23 +95,24 @@ public:
 int main()
 {
     LinkedList l;
+
     int n;
-    cout << "Enter number of elements: ";
+    cout << "Enter Element Size: ";
     cin >> n;
 
     int *values = new int[n];
-    cout << "Enter the elements: ";
+    cout << "Enter the Elements: ";
     for (int i = 0; i < n; i++)
     {
         cin >> values[i];
     }
-
     l.LinkedListInitialize(values, n);
     l.PrintLinkedList();
 
     l.Sort();
     l.PrintLinkedList();
 
-    delete[] values; // Free the dynamically allocated memory
+    delete[] values;
+
     return 0;
 }
