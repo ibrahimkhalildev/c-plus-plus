@@ -13,7 +13,7 @@ public:
     {
         data = val;
         nxt = NULL;
-        prev = NULL;
+        prev + NULL;
     }
 };
 
@@ -42,34 +42,6 @@ public:
         }
     }
 
-    bool isPalindrome()
-    {
-        if (head == NULL)
-            return true;
-
-        // Find the tail
-        Node *tail = head;
-        while (tail->nxt != NULL)
-        {
-            tail = tail->nxt;
-        }
-
-        // Check palindrome
-        Node *left = head;
-        Node *right = tail;
-
-        while (left != NULL && right != NULL && left != right && left->prev != right)
-        {
-            if (left->data != right->data)
-                return false;
-
-            left = left->nxt;
-            right = right->prev;
-        }
-
-        return true;
-    }
-
     void printList()
     {
         Node *current = head;
@@ -80,22 +52,48 @@ public:
         }
         cout << endl;
     }
+
+    int getIndex(int index)
+    {
+        Node *current = head;
+        int count = 0;
+        while (current != NULL)
+        {
+            if (count == index)
+            {
+                return current->data;
+            }
+            count++;
+            current = current->nxt;
+        }
+        return -1;
+    }
 };
 
 int main()
 {
+
     DoublyLinkedList dbl_list;
 
-    // Example: [1, 2, 3, 2, 1]
-    dbl_list.InsertAtHead(1);
-    dbl_list.InsertAtHead(2);
+    dbl_list.InsertAtHead(5);
+    dbl_list.InsertAtHead(4);
     dbl_list.InsertAtHead(3);
     dbl_list.InsertAtHead(2);
     dbl_list.InsertAtHead(1);
 
     cout << "Doubly Linked List: ";
     dbl_list.printList();
-    cout << "Is palindrome? " << (dbl_list.isPalindrome() ? "True" : "False") << endl;
+
+    int index = 3;
+    int value = dbl_list.getIndex(index);
+    if (value != -1)
+    {
+        cout << "Value of the Index " << index << " is: " << value << endl;
+    }
+    else
+    {
+        cout << "Index is out of Bound!" << '\n';
+    }
 
     return 0;
 }
