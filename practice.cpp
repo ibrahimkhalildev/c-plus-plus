@@ -1,101 +1,74 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-class Node
+vector<int> merge_sort(vector<int> a)
 {
-public:
-    int data;
-    Node *nxt;
-    Node *prev;
-
-    Node(int val)
+    if (a.size() <= 1)
     {
-        data = val;
-        nxt = NULL;
-        prev = NULL;
-    }
-};
-
-class DoublyLinkedList
-{
-public:
-    Node *head;
-
-    DoublyLinkedList()
-    {
-        head = NULL;
+        return a;
     }
 
-    void InsertAtHead(int val)
+    int mid = a.size() / 2;
+    vector<int> Left(a.begin(), a.begin() + mid);
+    vector<int> Right(a.begin() + mid, a.end());
+
+    vector<int> sorted_Left = merge_sort(Left);
+    vector<int> sorted_Right = merge_sort(Right);
+
+    vector<int> ans;
+    int p1 = 0, p2 = 0;
+
+    while (p1 < sorted_Left.size() && p2 < sorted_Right.size())
     {
-        Node *newNode = new Node(val);
-        if (head == NULL)
+        if (sorted_Left[p1] < sorted_Right[p2])
         {
-            head = newNode;
+            ans.push_back(sorted_Left[p1]);
+            p1++;
         }
         else
         {
-            newNode->nxt = head;
-            head->prev = newNode;
-            head = newNode;
+            ans.push_back(sorted_Right[p2]);
+            p2++;
         }
     }
 
-    bool isPalindrome()
+    while (p1 < sorted_Left.size())
     {
-        if (head == NULL)
-            return true;
-
-        // Find the tail
-        Node *tail = head;
-        while (tail->nxt != NULL)
-        {
-            tail = tail->nxt;
-        }
-
-        // Check palindrome
-        Node *left = head;
-        Node *right = tail;
-
-        while (left != NULL && right != NULL && left != right && left->prev != right)
-        {
-            if (left->data != right->data)
-                return false;
-
-            left = left->nxt;
-            right = right->prev;
-        }
-
-        return true;
+        ans.push_back(sorted_Left[p1]);
+        p1++;
     }
 
-    void printList()
+    while (p2 < sorted_Right.size())
     {
-        Node *current = head;
-        while (current != NULL)
-        {
-            cout << current->data << " ";
-            current = current->nxt;
-        }
-        cout << endl;
+        ans.push_back(sorted_Right[p2]);
+        p2++;
     }
-};
+
+    return ans;
+}
 
 int main()
 {
-    DoublyLinkedList dbl_list;
+    int n;
+    cout << "Enter the number of elements: ";
+    cin >> n;
 
-    // Example: [1, 2, 3, 2, 1]
-    dbl_list.InsertAtHead(1);
-    dbl_list.InsertAtHead(2);
-    dbl_list.InsertAtHead(3);
-    dbl_list.InsertAtHead(2);
-    dbl_list.InsertAtHead(1);
+    vector<int> a(n);
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
 
-    cout << "Doubly Linked List: ";
-    dbl_list.printList();
-    cout << "Is palindrome? " << (dbl_list.isPalindrome() ? "True" : "False") << endl;
+    vector<int> ans = merge_sort(a);
+
+    cout << "Sorted elements: ";
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i] << " ";
+    }
+    cout << endl;
 
     return 0;
 }
