@@ -9,45 +9,46 @@ vector<int> merge_sort(vector<int> a)
         return a;
     }
 
-    vector<int> Left;
-    vector<int> Right;
+    vector<int> left;
+    vector<int> right;
     int mid = a.size() / 2;
 
     for (int i = 0; i < mid; i++)
     {
-        Left.push_back(a[i]);
+        left.push_back(a[i]);
     }
     for (int i = mid; i < a.size(); i++)
     {
-        Right.push_back(a[i]);
+        right.push_back(a[i]);
     }
 
-    vector<int> sorted_Left = merge_sort(Left);
-    vector<int> sorted_Right = merge_sort(Right);
+    vector<int> sorted_Left = merge_sort(left);
+    vector<int> sorted_Righ = merge_sort(right);
 
     vector<int> ans;
     int p1 = 0;
     int p2 = 0;
+
     for (int i = 0; i < a.size(); i++)
     {
         if (p1 == sorted_Left.size())
         {
-            ans.push_back(sorted_Right[p2]);
+            ans.push_back(sorted_Righ[p2]);
             p2++;
         }
-        else if (p2 == sorted_Right.size())
+        else if (p2 == sorted_Righ.size())
         {
             ans.push_back(sorted_Left[p1]);
             p1++;
         }
-        else if (sorted_Left[p1] < sorted_Right[p2])
+        else if (sorted_Left[p1] < sorted_Righ[p2])
         {
             ans.push_back(sorted_Left[p1]);
             p1++;
         }
         else
         {
-            ans.push_back(sorted_Right[p2]);
+            ans.push_back(sorted_Righ[p2]);
             p2++;
         }
     }
@@ -57,16 +58,17 @@ vector<int> merge_sort(vector<int> a)
 int main()
 {
     int n;
-    cout << "Enter Size of Array: "<<'\n';
+    cout << "Enter array Size: " << '\n';
     cin >> n;
 
-    vector<int> a(n);
-    for(int i = 0; i<n; i++)
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++)
     {
-        cin>>a[i];
+        cin >> arr[i];
     }
 
-    vector<int> ans = merge_sort(a);
+    vector<int> ans = merge_sort(arr);
 
     for (int i = 0; i < ans.size(); i++)
     {

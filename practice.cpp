@@ -1,74 +1,78 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-vector<int> merge_sort(vector<int> a)
+class node
 {
-    if (a.size() <= 1)
+public:
+    int data;
+    node * nxt;
+};
+
+class LinkedList
+{
+public:
+    node * head;
+    int sz;
+    LinkedList()
     {
-        return a;
+        head = NULL;
+        sz=0;
     }
 
-    int mid = a.size() / 2;
-    vector<int> Left(a.begin(), a.begin() + mid);
-    vector<int> Right(a.begin() + mid, a.end());
-
-    vector<int> sorted_Left = merge_sort(Left);
-    vector<int> sorted_Right = merge_sort(Right);
-
-    vector<int> ans;
-    int p1 = 0, p2 = 0;
-
-    while (p1 < sorted_Left.size() && p2 < sorted_Right.size())
+    //Creates a new node with data = value and nxt= NULL
+    node* CreateNewNode(int value)
     {
-        if (sorted_Left[p1] < sorted_Right[p2])
+        node *newnode = new node;
+        newnode->data = value;
+        newnode->nxt = NULL;
+        return newnode;
+    }
+
+    // Insert new value at Head
+    void InsertAtHead(int value)
+    {
+        sz++;
+        node *a = CreateNewNode(value);
+        if(head == NULL)
         {
-            ans.push_back(sorted_Left[p1]);
-            p1++;
+            head = a;
+            return;
         }
-        else
+        //If head is not NULL
+        a->nxt = head;
+        head = a;
+    }
+
+    //Prints the linked list
+    void Traverse()
+    {
+        node* a = head;
+        while(a!= NULL)
         {
-            ans.push_back(sorted_Right[p2]);
-            p2++;
+            cout<<a->data<<" ";
+            a = a->nxt;
         }
+        cout<<"\n";
     }
 
-    while (p1 < sorted_Left.size())
+
+    //Returns number of elements in the linked list
+    int getSize()
     {
-        ans.push_back(sorted_Left[p1]);
-        p1++;
+        //O(1)
+        return sz;
     }
 
-    while (p2 < sorted_Right.size())
-    {
-        ans.push_back(sorted_Right[p2]);
-        p2++;
-    }
-
-    return ans;
-}
+};
 
 int main()
 {
-    int n;
-    cout << "Enter the number of elements: ";
-    cin >> n;
-
-    vector<int> a(n);
-    cout << "Enter the elements: ";
-    for (int i = 0; i < n; i++)
-    {
-        cin >> a[i];
-    }
-
-    vector<int> ans = merge_sort(a);
-
-    cout << "Sorted elements: ";
-    for (int i = 0; i < ans.size(); i++)
-    {
-        cout << ans[i] << " ";
-    }
-    cout << endl;
-
+    LinkedList l;
+    l.InsertAtHead(30);
+    l.InsertAtHead(10);
+    l.InsertAtHead(5);
+    l.InsertAtHead(1);
+    l.Traverse();
     return 0;
 }
