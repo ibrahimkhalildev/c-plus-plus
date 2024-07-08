@@ -46,7 +46,6 @@ public:
         a->prv = newnode;
         head = newnode;
     }
-
     // Prints the linked list O(n)
     void Traverse()
     {
@@ -64,36 +63,33 @@ public:
     {
         return sz;
     }
-    // Deletes all nodes with data = 0 O(n)
-    void deleteZero()
+
+    void deleteMid()
     {
-        node *current = head;
-        while (current != NULL)
+        if (sz == 0)
+            return;
+
+        int midIdx = sz / 2;
+        node *a = head;
+
+        for (int i = 0; i < midIdx; i++)
         {
-            if (current->data == 0)
-            {
-                node *temp = current;
-                if (current->prv != NULL)
-                {
-                    current->prv->nxt = current->nxt;
-                }
-                if (current->nxt != NULL)
-                {
-                    current->nxt->prv = current->prv;
-                }
-                if (current == head)
-                {
-                    head = current->nxt;
-                }
-                current = current->nxt;
-                delete temp;
-                sz--;
-            }
-            else
-            {
-                current = current->nxt;
-            }
+            a = a->nxt;
         }
+        if (a->prv != NULL)
+        {
+            a->prv->nxt = a->nxt;
+        }
+        if (a->nxt != NULL)
+        {
+            a->nxt->prv = a->prv;
+        }
+        if (a == head)
+        {
+            head = a->nxt;
+        }
+        delete a;
+        sz--;
     }
 };
 
@@ -101,14 +97,16 @@ int main()
 {
     DoublyLinkedList dl;
     dl.InsertAtHead(5);
-    dl.InsertAtHead(0);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(4);
+    dl.InsertAtHead(3);
     dl.InsertAtHead(2);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(1);
 
-    dl.Traverse();
+    dl.Traverse(); // Output: 1 2 3 4 5
 
-    dl.deleteZero();
-    dl.Traverse();
+    dl.deleteMid();
+
+    dl.Traverse(); // Output: 1 2 4 5
+
     return 0;
 }

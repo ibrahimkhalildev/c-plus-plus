@@ -64,7 +64,7 @@ public:
     {
         return sz;
     }
-    // Deletes all nodes with data = 0 O(n)
+
     void deleteZero()
     {
         node *current = head;

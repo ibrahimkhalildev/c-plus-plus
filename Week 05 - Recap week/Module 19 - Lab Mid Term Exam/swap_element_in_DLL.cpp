@@ -64,51 +64,44 @@ public:
     {
         return sz;
     }
-    // Deletes all nodes with data = 0 O(n)
-    void deleteZero()
+
+    void swap(int i, int j)
     {
-        node *current = head;
-        while (current != NULL)
+        if (i >= sz || j >= sz || i < 0 || j < 0 || i == j)
         {
-            if (current->data == 0)
-            {
-                node *temp = current;
-                if (current->prv != NULL)
-                {
-                    current->prv->nxt = current->nxt;
-                }
-                if (current->nxt != NULL)
-                {
-                    current->nxt->prv = current->prv;
-                }
-                if (current == head)
-                {
-                    head = current->nxt;
-                }
-                current = current->nxt;
-                delete temp;
-                sz--;
-            }
-            else
-            {
-                current = current->nxt;
-            }
+            cout << "Invalid!";
+            return;
         }
+        node *a = head;
+        node *b = head;
+        for (int k = 0; k < i; k++)
+        {
+            a = a->nxt;
+        }
+        for (int k = 0; k < j; k++)
+        {
+            b = b->nxt;
+        }
+
+        int temp = a->data;
+        a->data = b->data;
+        b->data = temp;
     }
 };
 
 int main()
 {
     DoublyLinkedList dl;
-    dl.InsertAtHead(5);
-    dl.InsertAtHead(0);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(7);
+    dl.InsertAtHead(4);
+    dl.InsertAtHead(6);
     dl.InsertAtHead(2);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(3);
 
     dl.Traverse();
 
-    dl.deleteZero();
+    dl.swap(1, 4);
     dl.Traverse();
+
     return 0;
 }

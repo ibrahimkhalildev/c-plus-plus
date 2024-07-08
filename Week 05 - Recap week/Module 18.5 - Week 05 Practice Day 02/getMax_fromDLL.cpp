@@ -46,7 +46,6 @@ public:
         a->prv = newnode;
         head = newnode;
     }
-
     // Prints the linked list O(n)
     void Traverse()
     {
@@ -64,36 +63,25 @@ public:
     {
         return sz;
     }
-    // Deletes all nodes with data = 0 O(n)
-    void deleteZero()
+    // Returns the maximum value present in the linked list O(n)
+    int getMax()
     {
-        node *current = head;
-        while (current != NULL)
+        if (sz == 0)
         {
-            if (current->data == 0)
-            {
-                node *temp = current;
-                if (current->prv != NULL)
-                {
-                    current->prv->nxt = current->nxt;
-                }
-                if (current->nxt != NULL)
-                {
-                    current->nxt->prv = current->prv;
-                }
-                if (current == head)
-                {
-                    head = current->nxt;
-                }
-                current = current->nxt;
-                delete temp;
-                sz--;
-            }
-            else
-            {
-                current = current->nxt;
-            }
+            return -1;
         }
+        int maxVal = head->data;
+        node *a = head->nxt;
+
+        while (a != NULL)
+        {
+            if (a->data > maxVal)
+            {
+                maxVal = a->data;
+            }
+            a = a->nxt;
+        }
+        return maxVal;
     }
 };
 
@@ -101,14 +89,15 @@ int main()
 {
     DoublyLinkedList dl;
     dl.InsertAtHead(5);
-    dl.InsertAtHead(0);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(4);
+    dl.InsertAtHead(6);
     dl.InsertAtHead(2);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(3);
+    dl.InsertAtHead(39);
 
-    dl.Traverse();
+    dl.Traverse(); // Output: 3 2 6 4 5
 
-    dl.deleteZero();
-    dl.Traverse();
+    cout << dl.getMax() << endl; // Output: Max value: 6
+
     return 0;
 }

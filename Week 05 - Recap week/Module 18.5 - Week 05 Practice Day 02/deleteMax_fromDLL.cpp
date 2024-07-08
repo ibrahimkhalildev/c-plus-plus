@@ -46,7 +46,6 @@ public:
         a->prv = newnode;
         head = newnode;
     }
-
     // Prints the linked list O(n)
     void Traverse()
     {
@@ -64,34 +63,60 @@ public:
     {
         return sz;
     }
-    // Deletes all nodes with data = 0 O(n)
-    void deleteZero()
+
+    int getMax()
     {
-        node *current = head;
-        while (current != NULL)
+        if (sz == 0)
+            return -1;
+
+        int maxVal = head->data;
+        node *a = head->nxt;
+
+        while (a != NULL)
         {
-            if (current->data == 0)
+            if (a->data > maxVal)
             {
-                node *temp = current;
-                if (current->prv != NULL)
+                maxVal = a->data;
+            }
+            a = a->nxt;
+        }
+        return maxVal;
+    }
+
+    void deleteMax()
+    {
+        if (sz == 0)
+            return;
+
+        int maxVal = getMax();
+        node *a = head;
+
+        while (a != NULL)
+        {
+            if (a->data == maxVal)
+            {
+                node *temp = a;
+
+                if (a->prv != NULL)
                 {
-                    current->prv->nxt = current->nxt;
+                    a->prv->nxt = a->nxt;
                 }
-                if (current->nxt != NULL)
+                if (a->nxt != NULL)
                 {
-                    current->nxt->prv = current->prv;
+                    a->nxt->prv = a->prv;
                 }
-                if (current == head)
+                if (a == head)
                 {
-                    head = current->nxt;
+                    head = a->nxt;
                 }
-                current = current->nxt;
+
+                a = a->nxt;
                 delete temp;
                 sz--;
             }
             else
             {
-                current = current->nxt;
+                a = a-> nxt;
             }
         }
     }
@@ -100,15 +125,18 @@ public:
 int main()
 {
     DoublyLinkedList dl;
+    dl.InsertAtHead(6);
     dl.InsertAtHead(5);
-    dl.InsertAtHead(0);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(4);
+    dl.InsertAtHead(6);
     dl.InsertAtHead(2);
-    dl.InsertAtHead(0);
+    dl.InsertAtHead(3);
 
-    dl.Traverse();
+    dl.Traverse(); // Output: 3 2 6 4 5 6
 
-    dl.deleteZero();
-    dl.Traverse();
+    dl.deleteMax();
+
+    dl.Traverse(); // Output: 3 2 4 5
+
     return 0;
 }
