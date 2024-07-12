@@ -91,7 +91,7 @@ public:
             }
             else
             {
-                current = current->nxt;
+                 current = current->nxt;
             }
         }
     }
