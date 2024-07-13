@@ -71,13 +71,13 @@ int main()
     Stack<double>st;
     st.push(3.5);
     st.push(2.6);
-    st.push(7.8);
+    st.push(1.9);
 
-    cout <<st.top()<<"\n";
+    cout <<st.top()<<" ";
     st.pop();
-    cout <<st.top()<<"\n";
+    cout <<st.top()<<" ";
     st.pop();
-    cout <<st.top()<<"\n";
+    cout <<st.top()<<" ";
     st.pop();
 
     cout<< st.top() <<'\n';

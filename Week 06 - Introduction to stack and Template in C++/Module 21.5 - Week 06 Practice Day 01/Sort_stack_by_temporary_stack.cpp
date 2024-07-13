@@ -3,50 +3,49 @@
 using namespace std;
 
 template <class T>
-class node
+class Node
 {
 public:
     T data;
-    node *nxt;
-    node *prv;
+    Node *nxt;
+    Node *prv;
 };
 
 template <class T>
 class DoublyLinkedList
 {
 public:
-    node<T> *head;
+    Node<T> *head;
     int sz;
     DoublyLinkedList()
     {
         head = NULL;
         sz = 0;
     }
-
     // Creates a new node with the given data and returns it O(1)
-    node<T> *CreateNewNode(T data)
+    Node<T> *CreateNewNode(T data)
     {
-        node<T> *newnode = new node<T>;
-        newnode->data = data;
-        newnode->nxt = NULL;
-        newnode->prv = NULL;
-        return newnode;
+        Node<T> *new_Node = new Node<T>;
+        new_Node->data = data;
+        new_Node->nxt = NULL;
+        new_Node->prv = NULL;
+        return new_Node;
     }
 
     // Inserts a node with given data at head O(1)
     void InsertAtHead(T data)
     {
         sz++;
-        node<T> *newnode = CreateNewNode(data);
+        Node<T> *new_Node = CreateNewNode(data);
         if (head == NULL)
         {
-            head = newnode;
+            head = new_Node;
             return;
         }
-        node<T> *a = head;
-        newnode->nxt = a;
-        a->prv = newnode;
-        head = newnode;
+        Node<T> *a = head;
+        new_Node->nxt = a;
+        a->prv = new_Node;
+        head = new_Node;
     }
 
     // Deletes the value at head
@@ -56,8 +55,8 @@ public:
         {
             return;
         }
-        node<T> *a = head;
-        node<T> *b = head->nxt;
+        Node<T> *a = head;
+        Node<T> *b = head->nxt;
         delete a;
         if (b != NULL)
         {
@@ -73,6 +72,7 @@ public:
         return sz;
     }
 };
+
 // Stack Using doubly Linked List
 template <class T>
 class Stack
@@ -82,6 +82,7 @@ public:
     Stack()
     {
     }
+
     T top()
     {
         if (dl.getSize() == 0)
@@ -92,6 +93,7 @@ public:
         }
         return dl.head->data;
     }
+
     void push(T val)
     {
         dl.InsertAtHead(val);
@@ -106,8 +108,7 @@ public:
         }
         dl.DeleteAtHead();
     }
-
-    int getSize()
+    int getSiz()
     {
         return dl.getSize();
     }
@@ -115,28 +116,26 @@ public:
 
 int main()
 {
-
-    //O(n^2)
     Stack<int> st;
-    st.push(5);
-    cout << st.top() << "\n";
     st.push(2);
-    cout << st.top() << "\n";
-    st.push(7);
-    cout << st.top() << "\n";
-    st.push(8);
     cout << st.top() << "\n";
     st.push(3);
     cout << st.top() << "\n";
+    st.push(1);
+    cout << st.top() << "\n";
+    st.push(5);
+    cout << st.top() << "\n";
+    st.push(4);
+    cout << st.top() << "\n";
     cout << endl;
-    
-    // Reverse a Stack using another stack
+
+    // Sorting a stack using an another temporary stack
     Stack<int> tmp;
-    while (st.getSize() > 0)
+    while (st.getSiz() > 0)
     {
         int t = st.top();
         st.pop();
-        while (tmp.getSize() > 0)
+        while (tmp.getSiz() > 0)
         {
             if (tmp.top() < t)
             {
@@ -149,7 +148,7 @@ int main()
     }
     swap(st, tmp);
 
-    while(st.getSize() > 0)
+    while (st.getSiz() > 0)
     {
         cout << st.top() << " ";
         st.pop();

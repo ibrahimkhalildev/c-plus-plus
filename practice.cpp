@@ -1,114 +1,88 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
 using namespace std;
 
-class node
-{
+template<class T>
+class node {
 public:
-    int data;
-    node *nxt;
-    node *prv;
+    T data;
+    node* next;
+    node(T val) : data(val), next(nullptr) {}
 };
 
-class DoublyLinkedList
-{
+template<class T>
+class Stack {
+private:
+    node<T>* topNode;
+    int size;
+
 public:
-    node *head;
-    int sz;
-    DoublyLinkedList()
-    {
-        head = NULL;
-        sz = 0;
+    Stack() : topNode(nullptr), size(0) {}
+
+    void push(T val) {
+        node<T>* newNode = new node<T>(val);
+        newNode->next = topNode;
+        topNode = newNode;
+        size++;
     }
 
-    // Creates a new node with the given data and returns it O(1)
-    node *CreateNewNode(int data)
-    {
-        node *newnode = new node;
-        newnode->data = data;
-        newnode->nxt = NULL;
-        newnode->prv = NULL;
-        return newnode;
-    }
-
-    // Inserts a node with given data at head O(1)
-    void InsertAtHead(int data)
-    {
-        sz++;
-        node *newnode = CreateNewNode(data);
-        if (head == NULL)
-        {
-            head = newnode;
+    void pop() {
+        if (isEmpty()) {
+            cout << "Stack is empty!\n";
             return;
         }
-        node *a = head;
-        newnode->nxt = a;
-        a->prv = newnode;
-        head = newnode;
+        node<T>* temp = topNode;
+        topNode = topNode->next;
+        delete temp;
+        size--;
     }
 
-    // Prints the linked list O(n)
-    void Traverse()
-    {
-        node *a = head;
-        while (a != NULL)
-        {
-            cout << a->data << " ";
-            a = a->nxt;
+    T top() {
+        if (isEmpty()) {
+            cout << "Stack is empty!\n";
+            T a;
+            return a; // Assuming T is a type that can have a default value
         }
-        cout << "\n";
+        return topNode->data;
     }
 
-    // Returns the size of linked list O(1)
-    int getSize()
-    {
-        return sz;
+    bool isEmpty() {
+        return size == 0;
     }
-    // Deletes all nodes with data = 0 O(n)
-    void deleteZero()
-    {
-        node *current = head;
-        while (current != NULL)
-        {
-            if (current->data == 0)
-            {
-                node *temp = current;
-                if (current->prv != NULL)
-                {
-                    current->prv->nxt = current->nxt;
-                }
-                if (current->nxt != NULL)
-                {
-                    current->nxt->prv = current->prv;
-                }
-                if (current == head)
-                {
-                    head = current->nxt;
-                }
-                current = current->nxt;
-                delete temp;
-                sz--;
-            }
-            else
-            {
-                 current = current->nxt;
-            }
-        }
+
+    int getSize() {
+        return size;
     }
 };
 
-int main()
-{
-    DoublyLinkedList dl;
-    dl.InsertAtHead(5);
-    dl.InsertAtHead(0);
-    dl.InsertAtHead(0);
-    dl.InsertAtHead(2);
-    dl.InsertAtHead(0);
+template<class T>
+void printStack(Stack<T>& stack) {
+    Stack<T> tempStack; // Temporary stack for printing
 
-    dl.Traverse();
+    // Copy elements from stack to tempStack
+    Stack<T> originalStack = stack; // Make a copy of the original stack
+    while (!originalStack.isEmpty()) {
+        tempStack.push(originalStack.top());
+        originalStack.pop();
+    }
 
-    dl.deleteZero();
-    dl.Traverse();
+    // Print elements in original insertion order
+    cout << "Original stack: ";
+    while (!tempStack.isEmpty()) {
+        cout << tempStack.top() << " ";
+        tempStack.pop();
+    }
+    cout << endl;
+}
+
+int main() {
+    Stack<int> a;
+    a.push(1);
+    a.push(2);
+    a.push(3);
+    a.push(4);
+
+    // Print the original stack in original order
+    printStack(a);
+
     return 0;
 }
