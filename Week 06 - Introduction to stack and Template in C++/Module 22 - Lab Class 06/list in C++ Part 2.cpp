@@ -15,6 +15,21 @@ void print(list<int> l)
     cout << "\n";
 }
 
+// O(n)
+void Insert(list<int> &l, int index, int value)
+{
+    auto it = l.begin(); // O(1)
+    advance(it, index);  // O(index)
+    l.insert(it, value); // O(1)
+}
+
+void Delete(list<int> &l, int index)
+{
+    auto it = l.begin(); // O(1)
+    advance(it, index);  // O(index)
+    l.erase(it);         // O(1)
+}
+
 int main()
 {
     list<int> l;
@@ -40,5 +55,17 @@ int main()
     // pop_fron O(1)
     l.pop_front();
     print(l);
+
+    // insert at any position
+    Insert(l, 1, 922);
+    print(l);
+
+    // delete at any position
+    Delete(l, 0);
+    print(l);
+    // Delete(l, 0);
+    //  size
+    cout << l.size() << "\n";
+
     return 0;
 }

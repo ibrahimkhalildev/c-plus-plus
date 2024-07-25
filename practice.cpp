@@ -1,88 +1,82 @@
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
-template<class T>
-class node {
-public:
-    T data;
-    node* next;
-    node(T val) : data(val), next(nullptr) {}
+enum class DataType {
+    CHAR,
+    INT,
+    DOUBLE
 };
 
-template<class T>
-class Stack {
+struct StackElement {
+    DataType type;
+    union {
+        char c;
+        int i;
+        double d;
+    } data;
+
+    StackElement(char value) : type(DataType::CHAR) { data.c = value; }
+    StackElement(int value) : type(DataType::INT) { data.i = value; }
+    StackElement(double value) : type(DataType::DOUBLE) { data.d = value; }
+};
+
+class MixedStack {
 private:
-    node<T>* topNode;
-    int size;
+    vector<StackElement> stack;
 
 public:
-    Stack() : topNode(nullptr), size(0) {}
-
-    void push(T val) {
-        node<T>* newNode = new node<T>(val);
-        newNode->next = topNode;
-        topNode = newNode;
-        size++;
+    void push(char value) {
+        stack.push_back(StackElement(value));
     }
 
-    void pop() {
-        if (isEmpty()) {
-            cout << "Stack is empty!\n";
-            return;
+    void push(int value) {
+        stack.push_back(StackElement(value));
+    }
+
+    void push(double value) {
+        stack.push_back(StackElement(value));
+    }
+
+    StackElement pop() {
+        if (stack.empty()) {
+            throw out_of_range("Stack is empty");
         }
-        node<T>* temp = topNode;
-        topNode = topNode->next;
-        delete temp;
-        size--;
+        StackElement top = stack.back();
+        stack.pop_back();
+        return top;
     }
 
-    T top() {
-        if (isEmpty()) {
-            cout << "Stack is empty!\n";
-            T a;
-            return a; // Assuming T is a type that can have a default value
-        }
-        return topNode->data;
-    }
-
-    bool isEmpty() {
-        return size == 0;
-    }
-
-    int getSize() {
-        return size;
+    bool isEmpty() const {
+        return stack.empty();
     }
 };
 
-template<class T>
-void printStack(Stack<T>& stack) {
-    Stack<T> tempStack; // Temporary stack for printing
-
-    // Copy elements from stack to tempStack
-    Stack<T> originalStack = stack; // Make a copy of the original stack
-    while (!originalStack.isEmpty()) {
-        tempStack.push(originalStack.top());
-        originalStack.pop();
+void printElement(const StackElement& element) {
+    switch (element.type) {
+        case DataType::CHAR:
+            cout << "CHAR: " << element.data.c << endl;
+            break;
+        case DataType::INT:
+            cout << "INT: " << element.data.i << endl;
+            break;
+        case DataType::DOUBLE:
+            cout << "DOUBLE: " << element.data.d << endl;
+            break;
     }
-
-    // Print elements in original insertion order
-    cout << "Original stack: ";
-    while (!tempStack.isEmpty()) {
-        cout << tempStack.top() << " ";
-        tempStack.pop();
-    }
-    cout << endl;
 }
 
 int main() {
-    Stack<int> a;
-    a.push(1);
-    a.push(2);
-    a.push(3);
-    a.push(4);
+    MixedStack stack;
+    stack.push('a');
+    stack.push(42);
+    stack.push(3.14);
 
-    // Print the original stack in original order
-    printStack(a);
+    while (!stack.isEmpty()) {
+        StackElement element = stack.pop();
+        printElement(element);
+    }
 
     return 0;
 }
