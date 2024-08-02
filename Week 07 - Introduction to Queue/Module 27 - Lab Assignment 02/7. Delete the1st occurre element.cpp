@@ -1,5 +1,4 @@
-#include <iostream>
-#include <list>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -10,7 +9,7 @@ void deleteValue(list<int> &l, int value)
         if (*it == value)
         {
             l.erase(it);
-            break;  // Exit the loop after removing the first occurrence
+            break;
         }
     }
 }
@@ -26,18 +25,19 @@ void printList(const list<int> &l)
 
 int main()
 {
+
     list<int> l = {7, 3, 8, 4, 5, 4};
     int value;
 
-    cout << "List before modification: ";
+    cout << "Given List: \n";
     printList(l);
 
-    cout << "Input a value to delete: ";
+    cout << "Enter a value to delete: \n";
     cin >> value;
 
     deleteValue(l, value);
 
-    cout << "List after modification: ";
+    cout << "List after Delete: \n";
     printList(l);
 
     return 0;

@@ -40,7 +40,7 @@ int main()
                 ans += st.top();
                 st.pop();
             }
-            st.pop(); // pop '('
+            st.pop();
         }
         else
         {
