@@ -58,7 +58,6 @@ public:
             previous->left = newNode;
         }
     }
-
     void DisplayTree()
     {
         if (root == NULL)
@@ -85,53 +84,46 @@ public:
         cout << endl;
     }
 
-    // Function to validate if the BST is valid
-    bool isValidBST()
+    // Finding maximum value
+    int find_Max()
     {
-        return isValidBSTUtil(root, LONG_MIN, LONG_MAX);
-    }
-
-
-    // Helper function to validate the BST
-    bool isValidBSTUtil(Node* node, long minValue, long maxValue)
-    {
-        if (node == NULL)
+        if (root == NULL)
         {
-            return true;
+            return -1;
         }
-
-        if (node->value <= minValue || node->value >= maxValue)
+        Node *current = root;
+        while (current->right != NULL)
         {
-            return false;
+            current = current->right;
         }
-
-        return isValidBSTUtil(node->left, minValue, node->value) &&
-               isValidBSTUtil(node->right, node->value, maxValue);
+        return current->value;
     }
 };
-
 int main()
 {
     BST a;
-    a.insertBST(100);
+    a.insertBST(8);
     a.insertBST(11);
     a.insertBST(6);
     a.insertBST(4);
     a.insertBST(7);
+    a.insertBST(100);
     a.insertBST(9);
     a.insertBST(13);
 
     a.DisplayTree();
 
-    // Check if the tree is a valid BST
-    if (a.isValidBST())
+    int max_value = a.find_Max();
+    if (max_value == -1)
     {
-        cout << "The tree is a valid BST." << endl;
+        cout << "Tree is empty!\n";
     }
     else
     {
-        cout << "The tree is not a valid BST." << endl;
+        cout << "Maximum value is the BST: " << max_value << endl;
     }
+
+    return 0;
 
     return 0;
 }

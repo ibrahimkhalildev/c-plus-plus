@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -59,16 +60,16 @@ public:
         }
     }
 
-    void DisplayTree()
+    void BFS()
     {
         if (root == NULL)
         {
-            cout << "Tree is Empty!\n";
+            cout << "Tree is Empty\n";
             return;
         }
         queue<Node *> q;
         q.push(root);
-        while (q.empty() == false)
+        while (!q.empty())
         {
             Node *frontNode = q.front();
             cout << frontNode->value << " ";
@@ -84,54 +85,64 @@ public:
         }
         cout << endl;
     }
-
-    // Function to validate if the BST is valid
-    bool isValidBST()
+    // Display DFS
+    void DisplayTree()
     {
-        return isValidBSTUtil(root, LONG_MIN, LONG_MAX);
+        if (root == NULL)
+        {
+            cout << "Tree is empty\n";
+            return;
+        }
+        BFS();
     }
-
-
-    // Helper function to validate the BST
-    bool isValidBSTUtil(Node* node, long minValue, long maxValue)
+    // Checkin Perfect Binary tree or not
+    int depth(Node *node)
+    {
+        int d = 0;
+        while (node != NULL)
+        {
+            d++;
+            node = node->left;
+        }
+        return d;
+    }
+    bool isPerfect_DFS(Node *node, int depth, int level)
     {
         if (node == NULL)
         {
             return true;
         }
-
-        if (node->value <= minValue || node->value >= maxValue)
+        if (node->left == NULL && node->right == NULL)
+        {
+            return (depth == level + 1);
+        }
+        if (node->left == NULL || node->right == NULL)
         {
             return false;
         }
+        return isPerfect_DFS(node->left, depth, level + 1) && isPerfect_DFS(node->right, depth, level + 1);
+    }
 
-        return isValidBSTUtil(node->left, minValue, node->value) &&
-               isValidBSTUtil(node->right, node->value, maxValue);
+    bool isPerfectBinaryTree()
+    {
+        int d = depth(root);
+        return isPerfect_DFS(root, d, 0);
     }
 };
 
 int main()
 {
     BST a;
-    a.insertBST(100);
-    a.insertBST(11);
-    a.insertBST(6);
     a.insertBST(4);
-    a.insertBST(7);
-    a.insertBST(9);
-    a.insertBST(13);
+    a.insertBST(2);
+    a.insertBST(1);
+    a.insertBST(8);
 
+    cout << "BFS tree: \n";
     a.DisplayTree();
 
-    // Check if the tree is a valid BST
-    if (a.isValidBST())
-    {
-        cout << "The tree is a valid BST." << endl;
-    }
+    if (a.isPerfectBinaryTree())
+        cout << "Tree is a Perfect Binary Tree.\n";
     else
-    {
-        cout << "The tree is not a valid BST." << endl;
-    }
-
-    return 0;
+        cout << "Tree is not a Perfect Binary Tree!\n";
 }

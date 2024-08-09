@@ -58,7 +58,6 @@ public:
             previous->left = newNode;
         }
     }
-
     void DisplayTree()
     {
         if (root == NULL)
@@ -85,35 +84,28 @@ public:
         cout << endl;
     }
 
-    // Function to validate if the BST is valid
-    bool isValidBST()
+    // Checking Tree valid BST or Not
+    bool is_valid_BST()
     {
-        return isValidBSTUtil(root, LONG_MIN, LONG_MAX);
+        return is_valid(root, LONG_MIN, LONG_MAX);
     }
-
-
-    // Helper function to validate the BST
-    bool isValidBSTUtil(Node* node, long minValue, long maxValue)
+    bool is_valid(Node *node, long minn, long maxx)
     {
         if (node == NULL)
         {
             return true;
         }
-
-        if (node->value <= minValue || node->value >= maxValue)
+        if (node->value <= minn || node->value >= maxx)
         {
             return false;
         }
-
-        return isValidBSTUtil(node->left, minValue, node->value) &&
-               isValidBSTUtil(node->right, node->value, maxValue);
+        return is_valid(node->left, minn, node->value) && is_valid(node->right, node->value, maxx);
     }
 };
-
 int main()
 {
     BST a;
-    a.insertBST(100);
+    a.insertBST(8);
     a.insertBST(11);
     a.insertBST(6);
     a.insertBST(4);
@@ -123,8 +115,7 @@ int main()
 
     a.DisplayTree();
 
-    // Check if the tree is a valid BST
-    if (a.isValidBST())
+    if (a.is_valid_BST())
     {
         cout << "The tree is a valid BST." << endl;
     }

@@ -1,44 +1,59 @@
-#include <iostream>
-#include <list>
+// Checking if a binary tree is a perfect binary tree in C++
 
+#include <iostream>
 using namespace std;
 
-void deleteValue(list<int> &l, int value)
-{
-    for (auto it = l.begin(); it != l.end(); ++it)
-    {
-        if (*it == value)
-        {
-            l.erase(it);
-            break;  // Exit the loop after removing the first occurrence
-        }
-    }
+struct Node {
+  int key;
+  struct Node *left, *right;
+};
+
+int depth(Node *node) {
+  int d = 0;
+  while (node != NULL) {
+    d++;
+    node = node->left;
+  }
+  return d;
 }
 
-void printList(const list<int> &l)
-{
-    for (int num : l)
-    {
-        cout << num << " ";
-    }
-    cout << endl;
+bool isPerfectR(struct Node *root, int d, int level = 0) {
+  if (root == NULL)
+    return true;
+
+  if (root->left == NULL && root->right == NULL)
+    return (d == level + 1);
+
+  if (root->left == NULL || root->right == NULL)
+    return false;
+
+  return isPerfectR(root->left, d, level + 1) &&
+       isPerfectR(root->right, d, level + 1);
 }
 
-int main()
-{
-    list<int> l = {7, 3, 8, 4, 5, 4};
-    int value;
+bool isPerfect(Node *root) {
+  int d = depth(root);
+  return isPerfectR(root, d);
+}
 
-    cout << "List before modification: ";
-    printList(l);
+struct Node *newNode(int k) {
+  struct Node *node = new Node;
+  node->key = k;
+  node->right = node->left = NULL;
+  return node;
+}
 
-    cout << "Input a value to delete: ";
-    cin >> value;
+int main() {
+  struct Node *root = NULL;
+  root = newNode(1);
+  root->left = newNode(2);
+  root->right = newNode(3);
+  root->left->left = newNode(4);
+  root->left->right = newNode(5);
+  root->right->left = newNode(6);
 
-    deleteValue(l, value);
-
-    cout << "List after modification: ";
-    printList(l);
-
-    return 0;
+  if (isPerfect(root))
+    cout << "The tree is a perfect binary tree\n";
+  else
+    cout << "The tree is not a perfect binary tree\n";
 }

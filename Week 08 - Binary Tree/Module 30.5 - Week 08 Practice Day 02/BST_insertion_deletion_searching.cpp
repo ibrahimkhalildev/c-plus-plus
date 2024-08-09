@@ -58,6 +58,7 @@ public:
             previous->left = newNode;
         }
     }
+
     void DisplayTree()
     {
         if (root == NULL)
@@ -82,13 +83,11 @@ public:
             q.pop();
         }
     }
-    
+
     bool find(int value)
     {
         if (root == NULL)
-        {
             return false;
-        }
         Node *tmp = root;
         while (tmp != NULL)
         {
@@ -107,6 +106,7 @@ public:
         }
         return false;
     }
+
     void DeleteNode(int value)
     {
         if (find(value) == true)
@@ -130,11 +130,10 @@ public:
                     break;
                 }
             }
-            // Node has no children
+            // Node has no child
             if (current->left == NULL and current->right == NULL)
             {
                 Node *delNode = current;
-
                 if (previous->right != NULL and previous->right->value == value)
                 {
                     previous->right = NULL;
@@ -146,10 +145,9 @@ public:
                 delete delNode;
                 return;
             }
-            // Node has one (1) children
+            // Node has 1 child
             if (current->left != NULL and current->right == NULL)
             {
-                // cout << current->left->value<<'\n';
                 Node *delNode = current->left;
                 current->value = current->left->value;
                 current->left = NULL;
@@ -163,10 +161,10 @@ public:
                 delete delNode;
             }
 
-            // Node has 2 childs
+            // Node have 2 childs
             if (current->left != NULL and current->right != NULL)
             {
-                Node* delNode = current->left;
+                Node *delNode = current->left;
                 current->value = current->left->value;
                 current->left = NULL;
                 delete delNode;
@@ -189,21 +187,18 @@ int main()
     a.insertBST(7);
     a.insertBST(9);
     a.insertBST(13);
-    // cout << a.root->left->value << '\n';
+
     a.DisplayTree();
 
-    if (a.find(11) == true)
-    {
-        cout << "\nexist\n";
-    }
+    if (a.find(9) == true)
+        cout << "\nExist\n";
     else
-    {
         cout << "\nNot found\n";
-    }
-//    a.DeleteNode(9);
-    a.DeleteNode(11);
 
-    cout << "\nAftr Delete: \n";
+    a.DeleteNode(13);
+
+    cout << "\nAfter Delete: \n";
     a.DisplayTree();
+
     return 0;
 }

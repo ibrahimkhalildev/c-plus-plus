@@ -59,16 +59,16 @@ public:
         }
     }
 
-    void DisplayTree()
+    void BFS()
     {
         if (root == NULL)
         {
-            cout << "Tree is Empty!\n";
+            cout << "Tree is Empty\n";
             return;
         }
         queue<Node *> q;
         q.push(root);
-        while (q.empty() == false)
+        while (!q.empty())
         {
             Node *frontNode = q.front();
             cout << frontNode->value << " ";
@@ -84,36 +84,74 @@ public:
         }
         cout << endl;
     }
-
-    // Function to validate if the BST is valid
-    bool isValidBST()
-    {
-        return isValidBSTUtil(root, LONG_MIN, LONG_MAX);
-    }
-
-
-    // Helper function to validate the BST
-    bool isValidBSTUtil(Node* node, long minValue, long maxValue)
+    // Inorder Traverse
+    void InOrderTraversal(Node *node)
     {
         if (node == NULL)
         {
-            return true;
+            return;
         }
+        InOrderTraversal(node->left);
+        cout << node->value << " ";
+        InOrderTraversal(node->right);
+    }
 
-        if (node->value <= minValue || node->value >= maxValue)
+    // Preorder Traverse
+    void PreorderTraversal(Node *node)
+    {
+        if (node == NULL)
         {
-            return false;
+            return;
         }
+        cout << node->value << " ";
+        PreorderTraversal(node->left);
+        PreorderTraversal(node->right);
+    }
+    // Postorder Traverse
+    void PostorderTraversal(Node *node)
+    {
+        if (node == NULL)
+        {
+            return;
+        }
+        PostorderTraversal(node->left);
+        PostorderTraversal(node->right);
+        cout << node->value << " ";
+    }
 
-        return isValidBSTUtil(node->left, minValue, node->value) &&
-               isValidBSTUtil(node->right, node->value, maxValue);
+    void DisplayTree()
+    {
+        if (root == NULL)
+        {
+            cout << "Tree is empty\n";
+            return;
+        }
+        BFS();
+    }
+
+    void DisplayInOrder()
+    {
+        InOrderTraversal(root);
+        cout << endl;
+    }
+
+    void DisplayPreOrder()
+    {
+        PreorderTraversal(root);
+        cout << endl;
+    }
+
+    void DisplayPostOrder()
+    {
+        PostorderTraversal(root);
+        cout << endl;
     }
 };
 
 int main()
 {
     BST a;
-    a.insertBST(100);
+    a.insertBST(8);
     a.insertBST(11);
     a.insertBST(6);
     a.insertBST(4);
@@ -121,17 +159,17 @@ int main()
     a.insertBST(9);
     a.insertBST(13);
 
+    cout << "BFS tree: \n";
     a.DisplayTree();
 
-    // Check if the tree is a valid BST
-    if (a.isValidBST())
-    {
-        cout << "The tree is a valid BST." << endl;
-    }
-    else
-    {
-        cout << "The tree is not a valid BST." << endl;
-    }
+    cout << "Pre-order DFS\n";
+    a.DisplayPreOrder();
+
+    cout << "In-Order DFS\n";
+    a.DisplayInOrder();
+
+    cout << "Postrder DFS\n";
+    a.DisplayPostOrder();
 
     return 0;
 }

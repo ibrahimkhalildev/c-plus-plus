@@ -59,16 +59,16 @@ public:
         }
     }
 
-    void DisplayTree()
+    void BFS()
     {
         if (root == NULL)
         {
-            cout << "Tree is Empty!\n";
+            cout << "Tree is Empty\n";
             return;
         }
         queue<Node *> q;
         q.push(root);
-        while (q.empty() == false)
+        while (!q.empty())
         {
             Node *frontNode = q.front();
             cout << frontNode->value << " ";
@@ -85,35 +85,62 @@ public:
         cout << endl;
     }
 
-    // Function to validate if the BST is valid
-    bool isValidBST()
+    void DisplayTree()
     {
-        return isValidBSTUtil(root, LONG_MIN, LONG_MAX);
+        if (root == NULL)
+        {
+            cout << "Tree is empty\n";
+            return;
+        }
+        BFS();
     }
 
-
-    // Helper function to validate the BST
-    bool isValidBSTUtil(Node* node, long minValue, long maxValue)
+    int countNodes(Node *node)
     {
         if (node == NULL)
-        {
+            return 0;
+        return 1 + countNodes(node->left) + countNodes(node->right);
+    }
+
+    bool isCompleteBinaryTree()
+    {
+        if (root == NULL)
             return true;
-        }
+        int nodeCount = countNodes(root);
+        queue<Node *> q;
+        q.push(root);
+        bool flag = false;
 
-        if (node->value <= minValue || node->value >= maxValue)
+        while (!q.empty())
         {
-            return false;
-        }
+            Node *node = q.front();
+            q.pop();
 
-        return isValidBSTUtil(node->left, minValue, node->value) &&
-               isValidBSTUtil(node->right, node->value, maxValue);
+            if (node->left)
+            {
+                if (flag)
+                    return false;
+                q.push(node->left);
+            }
+            else
+                flag = true;
+            if (node->right)
+            {
+                if (flag)
+                    flag = true;
+                q.push(node->right);
+            }
+            else
+                flag = true;
+        }
+        return true;
     }
 };
 
 int main()
 {
     BST a;
-    a.insertBST(100);
+    a.insertBST(8);
     a.insertBST(11);
     a.insertBST(6);
     a.insertBST(4);
@@ -121,17 +148,13 @@ int main()
     a.insertBST(9);
     a.insertBST(13);
 
+    cout << "BFS tree: \n";
     a.DisplayTree();
 
-    // Check if the tree is a valid BST
-    if (a.isValidBST())
-    {
-        cout << "The tree is a valid BST." << endl;
-    }
+    if (a.isCompleteBinaryTree())
+        cout << "Tree is a complete Binary Tree!\n";
     else
-    {
-        cout << "The tree is not a valid BST." << endl;
-    }
+        cout << "Tree is not a Complete Binary Tree!\n";
 
     return 0;
 }
