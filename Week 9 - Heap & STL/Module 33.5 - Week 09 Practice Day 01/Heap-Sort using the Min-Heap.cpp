@@ -11,7 +11,6 @@ public:
     {
     }
 
-    // Complexity O(log n)
     void up_heapify(int idx)
     {
         while (idx > 0 && nodes[idx] < nodes[(idx - 1) / 2])
@@ -21,14 +20,12 @@ public:
         }
     }
 
-    // Complexity O(1)
     void insert(int x)
     {
         nodes.push_back(x);
         up_heapify(nodes.size() - 1);
     }
 
-    // Complexity O(n)
     void PrintHeap()
     {
         for (int i = 0; i < nodes.size(); i++)
@@ -38,7 +35,6 @@ public:
         cout << '\n';
     }
 
-    // O(log n)
     void down_heapify(int idx)
     {
         while (1)
@@ -46,6 +42,7 @@ public:
             int smallest = idx;
             int left_child = 2 * idx + 1;
             int right_child = 2 * idx + 2;
+
             if (left_child < nodes.size() && nodes[smallest] > nodes[left_child])
             {
                 smallest = left_child;
@@ -61,7 +58,6 @@ public:
         }
     }
 
-    // O(log n)
     void Delete(int idx)
     {
         if (idx >= nodes.size())
@@ -71,23 +67,11 @@ public:
         down_heapify(idx);
     }
 
-    // O(1)
-    int get_Min()
-    {
-        if (nodes.empty())
-        {
-            cout << "Heap is empty!\n";
-            return -1;
-        }
-        return nodes[0];
-    }
-
-    // O(log n)
     int Extract_Min()
     {
         if (nodes.empty())
         {
-            cout << "Heap is empty!\n";
+            cout << "Heap is empty!" << '\n';
             return -1;
         }
         int ret = nodes[0];
@@ -95,7 +79,6 @@ public:
         return ret;
     }
 
-    // O(n)
     void build_from_array(vector<int> &a)
     {
         nodes = a;
@@ -106,58 +89,37 @@ public:
             down_heapify(i);
         }
     }
-
-    int size()
-    {
-        return nodes.size();
-    }
 };
 
-class priorityQueue
+vector<int> heap_sort(vector<int> a)
 {
-public:
     MinHeap h;
-
-    priorityQueue()
+    h.build_from_array(a);
+    vector<int> ans;
+    for (int i = 0; i < a.size(); i++)
     {
+        ans.push_back(h.Extract_Min());
     }
-
-    void push(int x)
-    {
-        h.insert(x);
-    }
-
-    void pop()
-    {
-        h.Delete(0);
-    }
-
-    int top()
-    {
-        return h.get_Min();
-    }
-
-    int size()
-    {
-        return h.size();
-    }
-};
+    return ans;
+}
 
 int main()
 {
-    priorityQueue pq;
+    vector<int> a = {10, 2, 3, 4, 11, 9, 5, 0, 7, 1};
 
-    pq.push(5);
-    pq.push(7);
-    pq.push(10);
-    pq.push(1);
-    pq.push(2);
+    MinHeap min_h;
+    min_h.build_from_array(a);
 
-    while (pq.size() != 0)
+    cout << "Min Heap before Sorting: \n";
+    min_h.PrintHeap();
+
+    cout << "Min Heap after sorting: " << '\n';
+    vector<int> sorted_mh = heap_sort(a);
+    for (int i = 0; i < sorted_mh.size(); i++)
     {
-        cout << pq.top() << " ";
-        pq.pop();
+        cout << sorted_mh[i] << " ";
     }
-    cout << endl;
+    cout << "\n";
+
     return 0;
 }

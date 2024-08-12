@@ -2,19 +2,18 @@
 
 using namespace std;
 
-class MinHeap
+class MaxHeap
 {
 public:
     vector<int> nodes;
 
-    MinHeap()
+    MaxHeap()
     {
     }
-
     // Complexity O(log n)
     void up_heapify(int idx)
     {
-        while (idx > 0 && nodes[idx] < nodes[(idx - 1) / 2])
+        while (idx > 0 && nodes[idx] > nodes[(idx - 1) / 2])
         {
             swap(nodes[idx], nodes[(idx - 1) / 2]);
             idx = (idx - 1) / 2;
@@ -43,21 +42,21 @@ public:
     {
         while (1)
         {
-            int smallest = idx;
+            int largest = idx;
             int left_child = 2 * idx + 1;
             int right_child = 2 * idx + 2;
-            if (left_child < nodes.size() && nodes[smallest] > nodes[left_child])
+            if (left_child < nodes.size() && nodes[largest] < nodes[left_child])
             {
-                smallest = left_child;
+                largest = left_child;
             }
-            if (right_child < nodes.size() && nodes[smallest] > nodes[right_child])
+            if (right_child < nodes.size() && nodes[largest] < nodes[right_child])
             {
-                smallest = right_child;
+                largest = right_child;
             }
-            if (smallest == idx)
+            if (largest == idx)
                 break;
-            swap(nodes[idx], nodes[smallest]);
-            idx = smallest;
+            swap(nodes[idx], nodes[largest]);
+            idx = largest;
         }
     }
 
@@ -72,18 +71,17 @@ public:
     }
 
     // O(1)
-    int get_Min()
+    int get_Max()
     {
         if (nodes.empty())
         {
             cout << "Heap is empty!\n";
-            return -1;
         }
         return nodes[0];
     }
 
     // O(log n)
-    int Extract_Min()
+    int Extract_Max()
     {
         if (nodes.empty())
         {
@@ -116,8 +114,7 @@ public:
 class priorityQueue
 {
 public:
-    MinHeap h;
-
+    MaxHeap h;
     priorityQueue()
     {
     }
@@ -134,7 +131,7 @@ public:
 
     int top()
     {
-        return h.get_Min();
+        return h.get_Max();
     }
 
     int size()
@@ -158,6 +155,6 @@ int main()
         cout << pq.top() << " ";
         pq.pop();
     }
-    cout << endl;
+
     return 0;
 }
