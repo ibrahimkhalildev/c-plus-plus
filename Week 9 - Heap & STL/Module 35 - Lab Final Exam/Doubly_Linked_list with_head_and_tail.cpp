@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -17,13 +17,13 @@ public:
     }
 };
 
-class LinkedList
+class DoublyLinkedList
 {
 public:
     Node *head;
     Node *tail;
 
-    LinkedList()
+    DoublyLinkedList()
     {
         head = NULL;
         tail = NULL;
@@ -33,13 +33,11 @@ public:
     {
         Node *newNode = new Node(val);
         if (head == NULL)
-        {
             head = tail = newNode;
-        }
         else
         {
             newNode->nxt = head;
-            head->prev = newNode;
+            newNode->prev = newNode;
             head = newNode;
         }
     }
@@ -48,9 +46,7 @@ public:
     {
         Node *newNode = new Node(val);
         if (tail == NULL)
-        {
             head = tail = newNode;
-        }
         else
         {
             tail->nxt = newNode;
@@ -79,14 +75,14 @@ public:
         newNode->prev = slow;
         newNode->nxt = slow->nxt;
 
-        if (slow->nxt != NULL)
+        if (slow->prev != NULL)
             slow->nxt->prev = newNode;
         else
             tail = newNode;
         slow->nxt = newNode;
     }
 
-    void print()
+    void printList()
     {
         Node *current = head;
         while (current != NULL)
@@ -94,59 +90,35 @@ public:
             cout << current->data << " ";
             current = current->nxt;
         }
-        cout << "\n";
-    }
-
-    void Merge(LinkedList &a)
-    {
-        if (a.head == NULL)
-            return;
-
-        if (tail == NULL)
-        {
-            head = a.head;
-            tail = a.tail;
-        }
-        else
-        {
-            tail->nxt = a.head;
-            a.head->prev = tail;
-            tail = a.tail;
-        }
-
-        // Clear list `a`
-        a.head = a.tail = NULL;
+        cout << endl;
     }
 };
 
 int main()
 {
-    LinkedList a;
-    LinkedList b;
+    DoublyLinkedList dblListl;
 
-    // Test `insertTail` with debug output
-    cout << "Inserting into list `a`:\n";
-    a.insertHead(1);
-    a.insertTail(5);
-    a.insertTail(10); // Add more to see the effect
-    cout << "Print A after insertions:\n";
-    a.print();  // Expected output: 1 5 10
+    dblListl.insertHead(6);
+    dblListl.insertHead(5);
+    dblListl.insertHead(4);
+    dblListl.insertHead(3);
+    dblListl.insertHead(2);
+    dblListl.insertHead(1);
 
-    // Inserting elements into list `b`
-    cout << "Inserting into list `b`:\n";
-    b.insertHead(10);
-    b.insertTail(50);
-    b.insertTail(100); // Add more to see the effect
-    cout << "Print B after insertions:\n";
-    b.print();  // Expected output: 10 50 100
+    cout << "Before Inserting: \n";
+    dblListl.printList();
 
-    // Merging list `b` into list `a`
-    a.Merge(b);
-    cout << "Print After Merge:\n";
-    a.print();  // Expected output: 1 5 10 10 50 100
+    dblListl.insertHead(0);
+    cout << "After Inserting at Head: \n";
+    dblListl.printList();
 
-    cout << "Print B after Merge:\n";
-    b.print();  // Expected output: (empty list)
+    dblListl.insertTail(7);
+    cout << "After Inserting at Tail: \n";
+    dblListl.printList();
+
+    dblListl.insertMid(99);
+    cout << "After Inserting at Mid: \n";
+    dblListl.printList();
 
     return 0;
 }

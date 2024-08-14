@@ -10,7 +10,7 @@ public:
     MaxHeap()
     {
     }
-    // Complexity O(log n)
+
     void up_heapify(int idx)
     {
         while (idx > 0 && nodes[idx] > nodes[(idx - 1) / 2])
@@ -20,14 +20,12 @@ public:
         }
     }
 
-    // Complexity O(1)
     void insert(int x)
     {
         nodes.push_back(x);
         up_heapify(nodes.size() - 1);
     }
 
-    // Complexity O(n)
     void PrintHeap()
     {
         for (int i = 0; i < nodes.size(); i++)
@@ -37,7 +35,6 @@ public:
         cout << '\n';
     }
 
-    // O(log n)
     void down_heapify(int idx)
     {
         while (1)
@@ -46,21 +43,16 @@ public:
             int left_child = 2 * idx + 1;
             int right_child = 2 * idx + 2;
             if (left_child < nodes.size() && nodes[largest] < nodes[left_child])
-            {
                 largest = left_child;
-            }
             if (right_child < nodes.size() && nodes[largest] < nodes[right_child])
-            {
                 largest = right_child;
-            }
             if (largest == idx)
                 break;
             swap(nodes[idx], nodes[largest]);
             idx = largest;
         }
     }
-    
-    //O(log n)
+
     void Delete(int idx)
     {
         if (idx >= nodes.size())
@@ -69,53 +61,50 @@ public:
         nodes.pop_back();
         down_heapify(idx);
     }
+};
 
-    //O(1)
-    int get_Max()
+class MinHeap
+{
+public:
+    MaxHeap mx;
+
+    void insert(int x)
     {
-        if (nodes.empty())
-        {
-            cout << "Heap is empty!\n";
-        }
-        return nodes[0];
+        mx.insert(-x);
     }
 
-    //O(log n)
-    int Extract_Max()
+    void Delete(int idx)
     {
-        if (nodes.empty())
-        {
-            cout << "Heap is empty!\n";
-            return -1;
-        }
-        int ret = nodes[0];
-        Delete(0);
-        return ret;
+        if (idx >= mx.nodes.size())
+            return;
+        swap(mx.nodes[idx], mx.nodes[mx.nodes.size() - 1]);
+        mx.nodes.pop_back();
+        mx.down_heapify(idx);
+    }
+
+    int getMin()
+    {
+        if (mx.nodes.empty())
+            throw runtime_error("Heap is empty");
+        return -mx.nodes[0];
     }
 };
 
 int main()
 {
-    MaxHeap heap;
+    MinHeap heap;
     heap.insert(4);
     heap.insert(7);
     heap.insert(9);
-    heap.insert(1);
     heap.insert(10);
     heap.insert(26);
     heap.insert(30);
     heap.insert(55);
 
-    cout << "Max Element: " << heap.get_Max() << "\n";
+    heap.Delete(0);
+    heap.Delete(0);
 
-    cout << "Max Element: " << heap.Extract_Max() << "\n";
-    cout << "Max Element: " << heap.Extract_Max() << "\n";
-
-    // cout << "Befor Delete\n";
-    // heap.PrintHeap();
-
-    // cout << "After Delete\n";
-    // heap.Delete(0);
-    // heap.PrintHeap();
+    cout << "MinHeap: ";
+    cout << heap.getMin() << '\n';
     return 0;
 }
